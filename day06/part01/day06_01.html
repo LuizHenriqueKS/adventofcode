@@ -1,0 +1,103 @@
+<html>
+
+  <head>
+    <title>Day 6, Example 1</title>
+    <script type="text/javascript" src="dist/front.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="mainPanel">
+      <div class="mainPanel__header">
+        
+        <select id="selectFile">
+          <option value="input.txt">Input</option>
+          <option value="example1.txt">Example 1</option>
+          <option value="example2.txt">Example 2</option>
+        </select>
+
+        <button id="playButton">Play</button>
+
+        <div>
+          <label for="speed">Delay(ms):</label>
+          <input type="number" id="speed" name="speed" min="1" max="1000000" value="500" >  
+        </div>
+
+        <div id="time">
+          <label>Time:</label>
+          <span class="value">0</span>
+        </div>
+
+        <div id="breadcrumbs">
+          <label>Breadcrumbs (distinct/all):</label>
+          <span class="value">0/0</span>
+        </div>
+
+      </div>
+      <div class="center">
+        <div id="gameArea"></div>
+      </div>
+    </div>
+
+  </body>
+
+  <style type="text/css">
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mainPanel {
+      min-width: 600px;
+      min-height: 600px;
+    }
+
+    .mainPanel__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #000;
+    }
+
+    #speed {
+      width: 75px;
+    }
+
+    #gameArea {
+      position: relative;
+    }
+
+    .tile.empty.even {
+      background-color: #000;
+    }
+
+    .tile.empty.odd {
+      background-color: #000000ab;
+    }
+
+    .tile.player {
+      background-color: blue!important;
+    }
+
+    .tile.obstruction {
+      background-color: red!important;
+    }
+
+    .tile.breadcrumb.even {
+      background-color: rgba(0, 128, 0, 0.733);
+    }
+    .tile.breadcrumb.odd {
+      background-color: green;
+    }
+
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+  </style>
+
+</html>
