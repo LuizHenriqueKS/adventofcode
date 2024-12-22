@@ -5,16 +5,15 @@ import Map2DImpl from "./engine/Map2DImpl";
 import Robot from "./engine/Robot";
 
 function main() {
-    test("input_test2.txt");
-    test("input_test.txt");
+    //test("input_test2.txt");
+    //test("input_test.txt");
     test("input_puzzle.txt");
 }
 
 function test(filename: string): void {
-    const seconds = 100;
     const map = readMap(filename);
-    //logMap(map);
-    for (let i = 0; i < seconds; i++) {
+    let seconds;
+    for (seconds = 1; ; seconds++) {
         map.listObjs().forEach(obj => {
             if (obj.type === "robot") {
                 const robot = obj as Robot;
@@ -22,12 +21,33 @@ function test(filename: string): void {
                 map.moveObj(robot, newPosition);
             }
         });
-        // logMap(map);
+        if (isPictureChristmasTree(map)) {
+            break;
+        }
+        if (seconds % 1000 === 0) {
+            console.log('Seconds:', seconds);
+        }
+        //logMap(map);
     }
-    // logMap(map);
-    const quadrants = getQuadrants(map);
-    const result = quadrants.map(it => it.listObjs().length).reduce((a, b) => a * b, 1);
-    console.log(filename, "- Result: " + result);
+    logMap(map);
+    console.log(filename, "- Seconds: " + seconds);
+}
+
+function isPictureChristmasTree(map: Map2D): boolean {
+    for (let obj of map.listObjs()) {
+        let counter = 0;
+        for (let x = obj.position.x; x < map.width; x++) {
+            if (map.isPositionOccupied({ x, y: obj.position.y })) {
+                counter++;
+                if (counter > 10) {
+                    return true;
+                }
+            } else {
+                break;
+            }
+        }
+    }
+    return false;
 }
 
 function logMap(map: Map2D): void {
@@ -43,32 +63,6 @@ function logMap(map: Map2D): void {
         process.stdout.write("\n");
     }
     process.stdout.write("\n");
-}
-
-function getQuadrants(map: Map2D): Map2D[] {
-    const quadrants: Map2D[] = [];
-    const xCenter = Math.floor(map.width / 2);
-    const yCenter = Math.floor(map.height / 2);
-    for (let i = 0; i < 4; i++) {
-        quadrants.push(new Map2DImpl({ width: map.width, height: map.height }));
-    }
-    map.listObjs().forEach(obj => {
-        const x = obj.position.x;
-        const y = obj.position.y;
-        if (x === xCenter || y === yCenter) {
-            return;
-        }
-        if (x < xCenter && y < yCenter) {
-            quadrants[0].addObj(obj);
-        } else if (x >= xCenter && y < yCenter) {
-            quadrants[1].addObj(obj);
-        } else if (x < xCenter && y >= yCenter) {
-            quadrants[2].addObj(obj);
-        } else if (x >= xCenter && y >= yCenter) {
-            quadrants[3].addObj(obj);
-        }
-    });
-    return quadrants;
 }
 
 function readMap(filename: string): Map2D {
