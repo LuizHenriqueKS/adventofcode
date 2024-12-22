@@ -5,14 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Debug Groovy Script",
+            "request": "launch",
+            "args": ["${file}"],
+            "vmArgs": "--enable-preview"
+        },
+        {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Run node script",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "program": "${file}",
-            "runtimeArgs": ["-r", "ts-node/register"],
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ],
